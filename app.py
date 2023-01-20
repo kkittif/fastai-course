@@ -4,11 +4,12 @@ import skimage
 
 learn = load_learner('export.pkl')
 
-def classify_image(img):
+labels = learn.dls.vocab
+def predict(img):
     img = PILImage.create(img)
-    pred, pred_idx, probs = learn.predict(img)
+    pred, pred_idx, probs = learn.predict(cd img)
     return {labels[i]: float(probs[i]) for i in range(len(labels))}
 
 title = 'Greek God Classifier'
 description = 'A greek god classifier trained on data from the internet. It classifies images (often inaccurately) of the six main gods'
-gr.Interface(fn=predict, inputs=gr.inputs.Image(shape=(512, 512)), outputs=gr.outputs.Label(num_top_classes=3), title = title, description = description).launch(share=True)
+gr.Interface(fn=predict, inputs=gr.inputs.Image(shape=(512, 512)), outputs=gr.outputs.Label(num_top_classes=3), title = title, description = description).launch()
